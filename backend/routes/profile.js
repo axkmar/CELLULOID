@@ -5,9 +5,13 @@ const Router = express.Router();
 const { User } = require('../db.js')
 const JWT_SECRET = process.env.JWT_SECRET
 
-console.log(JWT_SECRET);
-
 const signupSchema = zod.object({
+  username:zod.string(),
+  password:zod.string(),
+  email:zod.string()
+})
+
+const signinSchema = zod.object({
   username:zod.string(),
   password:zod.string()
 })
@@ -34,6 +38,7 @@ Router.post('/signup',async(req,res)=>{
   const user = await User.create({
     username:req.body.username,
     password:req.body.password,
+    email:req.body.email,
     films:0,
     reviews:0
   })
@@ -51,7 +56,34 @@ Router.post('/signup',async(req,res)=>{
 })
 
 Router.post('/signin',async(req,res)=>{
+  const {success} = signinSchema.safeParse(req.body);
 
+  if(!success){
+    res.status(422).json({
+      message:"Invalid Credentials"
+    })
+  }
+
+  const existingUser = await User.findOne({
+    username:req.body.username
+  })
+
+  if(!existingUser){
+    res.status(404).json({
+      message:"User Not Found"
+    })
+  }
+
+  const userId = existingUser._id
+
+  const token = jwt.sign({
+    userId
+  },JWT_SECRET)
+
+  return res.json({
+    message:"Signed In!",
+    token:token
+  })
 })
 
 module.exports = Router

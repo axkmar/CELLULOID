@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost:27017/celluloid");
 
-const User = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username:{
     type:String,
     required:true,
     minLength:8,
     maxLength:16,
     trim:true
+  },
+  email:{
+    type:String,
+    required:true,
   },
   password:{
     type:String,
@@ -25,7 +29,7 @@ const User = new mongoose.Schema({
   }
 })
 
-const Movie = new mongoose.Schema({
+const movieSchema = new mongoose.Schema({
   title:{
     type:String,
     required:true
@@ -35,6 +39,9 @@ const Movie = new mongoose.Schema({
     required:true
   }
 })
+
+const User = mongoose.model("User", userSchema);
+const Movie = mongoose.model("Movie", movieSchema);
 
 module.exports = {
   User,
