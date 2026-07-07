@@ -16,11 +16,33 @@ const signinSchema = zod.object({
   password:zod.string()
 })
 
+const updateSchema = zod.object({
+  username:zod.string().optional(),
+  password:zod.string().optional(),
+  email:zod.string().optional()
+})
+
+Router.put('/',authMiddleware,async(req,res)=>{
+  const {success} = updateSchema.safeParse(req.body);
+
+  if(!success){
+    res.status().json({
+      message:"Invalid Data"
+    })
+  }
+
+  await User.updateOne({_id:req.userId},req.body);
+
+  return res.status(200).json({
+    message:"Updated Succesfully"
+  })
+})
+
 Router.post('/signup',async(req,res)=>{
   const {success} = signupSchema.safeParse(req.body);
 
   if(!success){
-    res.status(422).json({
+    return res.status(422).json({
       message:"Invalid Credentials"
     })
   }
@@ -30,7 +52,7 @@ Router.post('/signup',async(req,res)=>{
   })
 
   if(existingUser){
-    res.status(409).json({
+    return res.status(409).json({
       message:"User already Existing.."
     })
   }
@@ -59,7 +81,7 @@ Router.post('/signin',async(req,res)=>{
   const {success} = signinSchema.safeParse(req.body);
 
   if(!success){
-    res.status(422).json({
+    return res.status(422).json({
       message:"Invalid Credentials"
     })
   }
@@ -69,7 +91,7 @@ Router.post('/signin',async(req,res)=>{
   })
 
   if(!existingUser){
-    res.status(404).json({
+    return res.status(404).json({
       message:"User Not Found"
     })
   }

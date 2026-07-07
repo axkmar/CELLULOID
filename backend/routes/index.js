@@ -5,6 +5,6 @@ const profileRouter = require('./profile.js');
 const moviesRouter = require('./movies.js')
 
 Router.use('/profile',profileRouter);
-// Router.use('/home',homeRouter);
+Router.use('/movies',moviesRouter);
 
 module.exports = Router
