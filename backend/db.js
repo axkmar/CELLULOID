@@ -42,19 +42,19 @@ const movieSchema = new mongoose.Schema({
   },
   watchDate:{
     type:Date,
-    required:true
+    required:false
   },
   review:{
     type:String,
-    required:true
+    required:false
   },
   like:{
     type:Boolean,
-    required:true
+    required:false
   },
   rating:{
     type:Number,
-    required:true
+    required:false
   }
 })
 

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const zod = require('zod')
 const Router = express.Router();
 const { User } = require('../db.js')
+const authMiddleware = require('../auth.js')
 const JWT_SECRET = process.env.JWT_SECRET
 
 const signupSchema = zod.object({
@@ -105,6 +106,14 @@ Router.post('/signin',async(req,res)=>{
   return res.json({
     message:"Signed In!",
     token:token
+  })
+})
+
+Router.delete('/',authMiddleware,async(req,res)=>{
+  await User.deleteOne({_id:req.userId})
+
+  res.json({
+    message:"Account Deleted Succesfully!"
   })
 })
 

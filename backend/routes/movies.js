@@ -1,7 +1,7 @@
 const express = require('express')
 const zod = require('zod');
 const { User, Movie } = require('../db');
-const authMiddleware = require('../../../Paytm-CLone/paytm/backend/middleware');
+const authMiddleware = require('../auth.js');
 const Router = express.Router();
 
 const movieSchema = zod.object({
@@ -23,7 +23,7 @@ Router.put('/',authMiddleware,async(req,res)=>{
   const {success} = updateSchema.safeParse(req.body);
 
   if(!success){
-    res.status().json({
+    res.json({
       message:"Invalid Details"
     })
   }
@@ -36,18 +36,26 @@ Router.put('/',authMiddleware,async(req,res)=>{
 })
 
 Router.post('/log',authMiddleware,async(req,res)=>{
-  const {success} = movieSchema.safeParse(req.body)
+  const { success } = movieSchema.safeParse(req.body)
 
   if(!success){
-    res.status().json({
+    return res.json({
       message:"Invalid Details"
     })
   }
 
-  const movie = await new Movie({
+  const existingMovie = await Movie.findOne({title:req.body.title});
+
+  if(existingMovie){
+    return res.json({
+      message:"Review Already Existed"
+    })
+  }
+
+  const movie = await Movie.create({
     user:req.userId, //now many movies can be saved under same objectId(same user)
     title:req.body.title,
-    watchDate:req.body.date,
+    watchDate:req.body.watchDate,
     review:req.body.review,
     rating:req.body.rating,
     like:req.body.like
@@ -58,7 +66,7 @@ Router.post('/log',authMiddleware,async(req,res)=>{
   })
 })
 
-Router.get('/log',authMiddleware,(req,res)=>{
+Router.get('/log',authMiddleware,async(req,res)=>{
   const movie = await Movie.findOne({_id:req.userId})
 
   if(!movie){
