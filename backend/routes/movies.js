@@ -6,7 +6,7 @@ const Router = express.Router();
 
 const movieSchema = zod.object({
   title:zod.string(),
-  watchDate:zod.date().optional(),
+  watchDate:zod.coerce.date().optional(),
   review:zod.string().optional(),
   rating:zod.number().optional(),
   like:zod.boolean().optional()
@@ -44,7 +44,10 @@ Router.post('/log',authMiddleware,async(req,res)=>{
     })
   }
 
-  const existingMovie = await Movie.findOne({title:req.body.title});
+  const existingMovie = await Movie.findOne({
+    userId:req.userId,
+    title:req.body.title
+  });
 
   if(existingMovie){
     return res.json({
@@ -67,7 +70,7 @@ Router.post('/log',authMiddleware,async(req,res)=>{
 })
 
 Router.get('/log',authMiddleware,async(req,res)=>{
-  const movie = await Movie.findOne({_id:req.userId})
+  const movie = await Movie.find({user:req.userId})
 
   if(!movie){
     return res.status(404).json({
@@ -76,7 +79,7 @@ Router.get('/log',authMiddleware,async(req,res)=>{
   }
 
   res.status(200).json({
-    movie:movie
+    movie
   })
 })
 
