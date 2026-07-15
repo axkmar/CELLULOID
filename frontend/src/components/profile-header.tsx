@@ -1,8 +1,9 @@
-import DP from '../assets/hero.png'
+import DP from '/john_wick.jpeg'
 
 function StatItem({ label }: { label: string; }) {
   return (
-    <div className="flex flex-col items-center px-4 py-1 sm:items-end">
+    <div className="flex flex-col items-center px-4 py-1">
+      <span className='text-2xl font-bold'>0</span>
       <span className="text-[11px] font-medium uppercase tracking-widest text-muted-foreground">{label}</span>
     </div>
   )
@@ -24,9 +25,6 @@ export function ProfileHeader() {
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <h1 className="text-pretty text-2xl font-bold leading-tight text-foreground sm:text-3xl">AKSHIT</h1>
-              <span className="rounded bg-accent px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-accent-foreground">
-                Pro
-              </span>
             </div>
             <p className="font-mono text-sm text-primary">akshit23</p>
             <p className="mt-2 max-w-md text-pretty text-sm leading-relaxed text-muted-foreground">someday we gon take this off</p>
@@ -34,12 +32,11 @@ export function ProfileHeader() {
         </div>
 
         {/* Right: counters */}
-        <div className="grid grid-cols-3 divide-x divide-border rounded-lg border border-border bg-card/40 sm:flex sm:divide-x">
+        <div className="grid grid-cols-3 bg-card/40 sm:flex sm:justify-between">
           <StatItem label="Films"/>
           <StatItem label="This Year"/>
           <StatItem label="Reviews"/>
           <StatItem label="Lists"/>
-          <StatItem label="Followers"/>
         </div>
       </div>
     </header>
