@@ -1,4 +1,4 @@
-import { StarRating } from "./star-rating"
+import { StarRating } from "./StarRating"
 
 type Props ={
   title:string;
@@ -25,7 +25,7 @@ export function MovieCard({ title,poster_path,release_date,overview,vote_average
         <h3 className="truncate text-sm font-semibold text-foreground" title={original_title}>
           {title}
         </h3>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justifyx-between">
           <StarRating rating={vote_average}/>
           <span className="font-mono text-xs text-muted-foreground">{release_date}</span>
         </div>

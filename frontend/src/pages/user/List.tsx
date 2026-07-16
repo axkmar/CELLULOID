@@ -1,4 +1,4 @@
-import { ListWall } from "../components/ListWall"
+import { ListWall } from "../../components/ListWall"
 
 export default function List() {
   return (

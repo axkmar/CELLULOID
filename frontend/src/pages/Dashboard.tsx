@@ -1,5 +1,5 @@
-import { ProfileHeader } from "../components/profile-header"
-import { PosterWall } from "../components/poster-wall"
+import { ProfileHeader } from "../components/ProfileHeader"
+import { PosterWall } from "../components/PosterWall"
 
 export default function Dashboard() {
   return (
