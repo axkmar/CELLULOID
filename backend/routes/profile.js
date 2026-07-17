@@ -8,6 +8,8 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 const signupSchema = zod.object({
   username:zod.string(),
+  firstname:zod.string(),
+  lastname:zod.string(),
   password:zod.string(),
   email:zod.string()
 })
@@ -60,6 +62,8 @@ Router.post('/signup',async(req,res)=>{
 
   const user = await User.create({
     username:req.body.username,
+    firstname:req.body.firstname,
+    lastname:req.body.lastname,
     password:req.body.password,
     email:req.body.email,
     films:0,

@@ -1,9 +1,9 @@
 import { useRecoilValue } from 'recoil';
 import { MovieCard } from './MovieCard'
-import { moviesAtom } from '../atoms/movies';
+import { moviesSelector } from '../atoms/movies';
 
 export function ListWall() {
-  const movies = useRecoilValue(moviesAtom)
+  const movies = useRecoilValue(moviesSelector);
 
   return (
     <section aria-labelledby="recent-heading" className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
